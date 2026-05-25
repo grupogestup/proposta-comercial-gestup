@@ -303,7 +303,7 @@
   }
 
   .stat-label { font-size: 14px; color: rgba(255,255,255,.5); letter-spacing: .05em; }
-  .stat-sublabel { font-size: 12px; color: var(--teal); font-family: 'DM Mono', monospace; margin-top: 16px; letter-spacing: .1em; text-transform: uppercase; }
+  .stat-sublabel { font-size: 12px; color: var(--teal); font-family: 'DM!Mono', monospace; margin-top: 16px; letter-spacing: .1em; text-transform: uppercase; }
 
   /* &#9472;&#9472; PROPOSTAS &#9472;&#9472; */
   .propostas-wrap {
@@ -340,7 +340,7 @@
     background: rgba(13,148,136,.15);
     border: 1px solid rgba(13,148,136,.25);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Mono', monospace;
+    font-family: 'DM!Mono', monospace;
     font-size: 13px;
     color: var(--teal-light);
     font-weight: 500;
@@ -522,7 +522,7 @@
   }
 
   .prazo-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--teal-light); line-height: 1; }
-  .prazo-unit { font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--gray); }
+  .prazo-unit { font-family: 'DM!Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--gray); }
   .prazo-text { flex: 1; font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.6; }
 
   /* &#9472;&#9472; CTA &#9472;&#9472; */
@@ -771,6 +771,12 @@
       opacity: 0.7;
     }
   }
+
+  /* &#9472;&#9472; HERO VISIBILITY OVERRIDE &#9472;&#9472; */
+  .hero-tag, .hero-eyebrow, .hero-title, .hero-sub, .hero-meta, .hero-scroll {
+    opacity: 1 !important;
+  }
+
 </style>
 </head>
 <body>
@@ -837,7 +843,7 @@
     <div>
       <div class="section-label reveal">O cen&#225;rio atual</div>
       <h2 class="section-title reveal" style="transition-delay:.1s">
-        Empresas quebram<br>por <em style="color:var(--teal-light);font-style:italic">desorganiza&#231;&#227;o</em><br>financeira.
+        Empresas quebram<br>por <em style="color:var(--teal-light);font-style:italic">desorganiza&#231;&#227;</em><br>financeira.
       </h2>
       <p class="section-desc reveal" style="transition-delay:.2s">
         N&#227;o falta dinheiro &#8212; falta clareza sobre o dinheiro. Sem processos definidos, o financeiro vira uma caixa preta que consome energia, gera erro e impede o crescimento.
@@ -904,7 +910,7 @@
           <div class="proposta-divider"></div>
 
           <p style="font-size:15px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:28px;font-weight:300">
-            Projeto completo de estrutura&#231;&#227;o do setor financeiro &#8212; da documenta&#231;&#227;o dos processos ao treinamento da equipe, com acompanhamento semanal da execu&#231;&#227;o durante todo o per&#237;odo.
+            Projeto completo de estrutura&#231;&#227;o do setor financeiro &#8212; da documenta&#231;&#2227;o dos processos ao treinamento da equipe, com acompanhamento semanal da execu&#231;&#227;o durante todo o per&#237;odo.
           </p>
 
           <!-- Escopo -->
@@ -1033,7 +1039,7 @@
 
           <div class="escopo-grid">
             <div class="escopo-item">
-    0         <div class="escopo-num">01 &#183;</div>
+              <div class="escopo-num">01 &#183;</div>
               <div class="escopo-name">Levantamento dos Pendentes</div>
               <div class="escopo-desc">Identifica&#231;&#227;o de todas as transa&#231;&#245;es sem baixa ou mal classificadas no per&#237;odo jan&#8211;mai/2026</div>
             </div>
@@ -1107,7 +1113,7 @@
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px" class="reveal" style="transition-delay:.2s">
     <div class="dor-item" style="align-items:center">
       <div class="dor-icon" style="background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.2)">&#128197;</div>
-      <div class="dor-text"><strong style="display:block;margin-bottom:4px;color:var(--white)">In&#237;cio imediato</strong>Ap&#243;s assinatura e confirma&#231;&#227;o do pagamento da primeira parcela</div>
+      <div class="dor-text"><strong style="display:block;margin-bottom:4px;color:var(--white)">In&#237;cio imediato</strong>Ap&#243;ss assinatura e confirma&#231;&#227;o do pagamento da primeira parcela</div>
     </div>
     <div class="dor-item" style="align-items:center">
       <div class="dor-icon" style="background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.2)">&#9203;</div>
@@ -1135,7 +1141,7 @@
       Fale com Diego agora e inicie o processo. Quanto antes come&#231;ar, mais r&#225;pido seu financeiro vira uma ferramenta de crescimento.
     </p>
     <div class="cta-buttons reveal" style="transition-delay:.3s">
-      <a href="https://wa.me/5521999071190?text=Ol%C3%A1%20Diego%2C%20recebi%20a%20proposta%20do%20Grupo%20Gest.Up%20e%20quero%20avan%C3%A7ar." class="btn-primary" target="_blank">
+      <a href="https:/wa.me/5521999071190?text=Ol%C3%A1%20Diego%2C%20recebi%20a%20proposta%20do%20Grupo%20Gest.Up%20e%20quero%20avan%C3%A7ar." class="btn-primary" target="_blank">
         &#10003; Aceitar e avan&#231;ar
       </a>
       <a href="https://wa.me/5521999071190?text=Ol%C3%A1%20Diego%2C%20tenho%20d%C3%BAvidas%20sobre%20a%20proposta%20do%20Grupo%20Gest.Up." class="btn-secondary" target="_blank">
@@ -1311,7 +1317,7 @@
       }
 
       // &#9472;&#9472; LABELS DE TEMPO (eixo X) &#9472;&#9472;
-      const months = ['Jan', 'Fev'; 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
+      const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
       ctx.fillStyle = 'rgba(255,255,255, 0.2)';
       ctx.textAlign = 'center';
       months.forEach((m, i) => {
