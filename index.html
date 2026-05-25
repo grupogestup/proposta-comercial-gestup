@@ -1,0 +1,1435 @@
+ï»¿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Comercial Â· Grupo Gest.Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --teal: #006D71;
+    --teal-light: #0D9488;
+    --teal-dark: #004F52;
+    --ink: #0A1918;
+    --ink-soft: #0F2422;
+    --cream: #F7F5F0;
+    --cream-dark: #EDE9E0;
+    --gray: #6B7280;
+    --gray-light: #9CA3AF;
+    --white: #FFFFFF;
+    --gold: #C9A84C;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ââ HERO ââ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    padding: 80px 60px 60px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(13,148,136,.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(13,148,136,.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(13,148,136,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(13,148,136,.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  #chart-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: .55;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: .025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(13,148,136,.15);
+    border: 1px solid rgba(13,148,136,.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--teal-light);
+    text-transform: uppercase;
+    width: fit-content;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp .6s .2s forwards;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal-light);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(.8); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp .6s .35s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp .7s .45s forwards;
+  }
+
+  .hero-title .accent {
+    color: var(--teal-light);
+    font-style: italic;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,.55);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 520px;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp .6s .6s forwards;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    opacity: 0;
+    animation: fadeUp .6s .75s forwards;
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--gray); }
+  .meta-value { font-size: 15px; font-weight: 500; color: var(--white); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gray);
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp .6s 1.1s forwards;
+  }
+
+  .scroll-line {
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--teal));
+  }
+
+  /* ââ SECTIONS GLOBAL ââ */
+  .section {
+    padding: 120px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--teal-dark), transparent);
+    max-width: 60px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    margin-bottom: 24px;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    color: rgba(255,255,255,.5);
+    line-height: 1.7;
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  /* ââ DIVIDER ââ */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(13,148,136,.3), transparent);
+  }
+
+  /* ââ PROBLEMA ââ */
+  .problema {
+    background: var(--ink-soft);
+    padding: 120px 60px;
+  }
+
+  .problema-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .dores-list { display: flex; flex-direction: column; gap: 16px; margin-top: 48px; }
+
+  .dor-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 12px;
+    transition: all .3s ease;
+  }
+
+  .dor-item:hover {
+    background: rgba(13,148,136,.08);
+    border-color: rgba(13,148,136,.2);
+    transform: translateX(4px);
+  }
+
+  .dor-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(201,168,76,.1);
+    border: 1px solid rgba(201,168,76,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .dor-text { font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.5; }
+
+  .stat-block {
+    background: linear-gradient(135deg, rgba(13,148,136,.15), rgba(13,148,136,.05));
+    border: 1px solid rgba(13,148,136,.2);
+    border-radius: 20px;
+    padding: 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-block::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(13,148,136,.15), transparent 70%);
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    font-weight: 900;
+    color: var(--teal-light);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label { font-size: 14px; color: rgba(255,255,255,.5); letter-spacing: .05em; }
+  .stat-sublabel { font-size: 12px; color: var(--teal); font-family: 'DM Mono', monospace; margin-top: 16px; letter-spacing: .1em; text-transform: uppercase; }
+
+  /* ââ PROPOSTAS ââ */
+  .propostas-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 64px;
+  }
+
+  .proposta-card {
+    background: rgba(255,255,255,.02);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all .4s ease;
+  }
+
+  .proposta-card:hover { border-color: rgba(13,148,136,.3); }
+
+  .proposta-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 40px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .proposta-header-left { display: flex; align-items: center; gap: 20px; }
+
+  .proposta-num {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: rgba(13,148,136,.15);
+    border: 1px solid rgba(13,148,136,.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--teal-light);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .proposta-title-block {}
+  .proposta-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .proposta-sub { font-size: 13px; color: var(--gray-light); }
+
+  .proposta-badge {
+    background: rgba(13,148,136,.15);
+    border: 1px solid rgba(13,148,136,.25);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--teal-light);
+    white-space: nowrap;
+  }
+
+  .proposta-toggle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.05);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    transition: transform .3s ease;
+    color: var(--teal-light);
+    flex-shrink: 0;
+  }
+
+  .proposta-card.open .proposta-toggle { transform: rotate(45deg); }
+
+  .proposta-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s cubic-bezier(.4,0,.2,1);
+  }
+
+  .proposta-card.open .proposta-body { max-height: 2000px; }
+
+  .proposta-inner { padding: 0 40px 40px; }
+
+  .proposta-divider {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(13,148,136,.2), transparent);
+    margin-bottom: 32px;
+  }
+
+  /* Escopo items */
+  .escopo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+
+  .escopo-item {
+    padding: 20px 22px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 12px;
+    transition: all .3s;
+  }
+
+  .escopo-item:hover { background: rgba(13,148,136,.07); border-color: rgba(13,148,136,.2); }
+
+  .escopo-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--teal);
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+  }
+
+  .escopo-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .escopo-desc { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.5; }
+
+  /* Timeline */
+  .timeline { display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; position: relative; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--teal-dark), transparent);
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 20px;
+    padding: 16px 0;
+  }
+
+  .tl-dot {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(13,148,136,.15);
+    border: 2px solid var(--teal-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--teal-light);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tl-content {}
+  .tl-phase { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; color: var(--teal); text-transform: uppercase; margin-bottom: 2px; }
+  .tl-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .tl-period { font-size: 12px; color: var(--gray-light); }
+
+  /* Investimento */
+  .invest-box {
+    background: linear-gradient(135deg, rgba(13,148,136,.12), rgba(13,118,110,.06));
+    border: 1px solid rgba(13,148,136,.2);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .invest-rows { display: flex; flex-direction: column; gap: 0; margin-bottom: 24px; }
+
+  .invest-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    font-size: 14px;
+  }
+
+  .invest-row:last-child { border-bottom: none; }
+  .invest-row-label { color: rgba(255,255,255,.6); }
+  .invest-row-val { font-family: 'DM Mono', monospace; color: var(--white); font-size: 13px; }
+
+  .invest-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: var(--teal-dark);
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .invest-total-label { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .invest-total-val { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--white); }
+
+  .invest-options { display: flex; gap: 12px; }
+
+  .invest-opt {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    text-align: center;
+  }
+
+  .invest-opt-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-light); margin-bottom: 4px; }
+  .invest-opt-val { font-size: 14px; font-weight: 600; color: var(--teal-light); }
+
+  /* ââ PRAZO GLOBAL ââ */
+  .prazo-bar {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(13,148,136,.15);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .prazo-circle {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    border: 3px solid var(--teal);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .prazo-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--teal-light); line-height: 1; }
+  .prazo-unit { font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--gray); }
+  .prazo-text { flex: 1; font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.6; }
+
+  /* ââ CTA ââ */
+  .cta-section {
+    padding: 120px 60px;
+    background: linear-gradient(135deg, var(--ink-soft), var(--ink));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(13,148,136,.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 20px;
+  }
+
+  .cta-title .italic { font-style: italic; color: var(--teal-light); }
+
+  .cta-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,.45);
+    margin-bottom: 48px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--teal);
+    color: var(--white);
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all .3s;
+    letter-spacing: .01em;
+  }
+
+  .btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(13,148,136,.35); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--white);
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,.2);
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  .btn-secondary:hover { border-color: var(--teal); color: var(--teal-light); transform: translateY(-2px); }
+
+  /* ââ FOOTER ââ */
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 40px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .footer-brand span { color: var(--teal-light); }
+
+  .footer-info { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gray); letter-spacing: .08em; }
+
+  .validity {
+    background: rgba(201,168,76,.08);
+    border: 1px solid rgba(201,168,76,.2);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: .08em;
+  }
+
+  /* ââ NAV ââ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(10,15,13,.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,.04);
+  }
+
+  .nav-brand { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+  .nav-brand span { color: var(--teal-light); }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,.5); text-decoration: none; letter-spacing: .03em; transition: color .2s; }
+  .nav-links a:hover { color: var(--teal-light); }
+
+  .nav-cta {
+    background: rgba(13,148,136,.15);
+    border: 1px solid rgba(13,148,136,.25);
+    color: var(--teal-light);
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all .2s;
+  }
+
+  .nav-cta:hover { background: var(--teal); color: var(--white); }
+
+  /* ââ ANIMATIONS ââ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ââ RESPONSIVE ââ */
+  @media (max-width: 1024px) {
+    .hero { padding: 100px 40px 60px; }
+    .section { padding: 80px 40px; }
+    .problema { padding: 80px 40px; }
+    .cta-section { padding: 80px 40px; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 60px; }
+    .nav-brand { font-size: 16px; }
+    .nav-links { display: none; }
+    .nav-cta { padding: 6px 14px; font-size: 12px; }
+    .hero { padding: 80px 20px 50px; }
+    .hero-title { font-size: clamp(36px, 10vw, 64px); }
+    .hero-sub { font-size: 15px; }
+    .hero-meta { flex-wrap: wrap; gap: 16px; }
+    .meta-item { min-width: 120px; }
+    .section { padding: 60px 20px; }
+    .section-title { font-size: clamp(28px, 8vw, 48px); }
+    .problema { padding: 60px 20px; }
+    .problema-inner { grid-template-columns: 1fr; gap: 40px; }
+    .stat-block { text-align: center; }
+    .cta-section { padding: 60px 20px; }
+    .cta-title { font-size: clamp(32px, 9vw, 56px); }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .btn-primary, .btn-secondary { width: 100%; max-width: 320px; text-align: center; justify-content: center; }
+    footer { padding: 28px 20px; flex-direction: column; gap: 8px; text-align: center; }
+    .proposta-header { padding: 20px; gap: 12px; flex-wrap: wrap; }
+    .proposta-inner { padding: 0 20px 28px; }
+    .escopo-grid { grid-template-columns: 1fr; }
+    .invest-options { flex-direction: column; }
+    .invest-opt { text-align: center; }
+    .timeline { padding-left: 12px; }
+    .dores-list { gap: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 70px 16px 40px; }
+    .section { padding: 48px 16px; }
+    .problema { padding: 48px 16px; }
+    .cta-section { padding: 48px 16px; }
+    .proposta-header { padding: 16px; }
+    .proposta-inner { padding: 0 16px 24px; }
+    .hero-meta { gap: 12px; }
+    .meta-item { width: calc(50% - 6px); }
+  }
+
+  /* ââ PRINT ââ */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    
+    html, body { background: #0A1918 !important; color: #fff !important; }
+    
+    nav, .hero-scroll, #chart-canvas, .grid-bg, .noise, .nav-links, .nav-cta { display: none !important; }
+    
+    .hero { min-height: auto; padding: 40px 40px 32px; page-break-after: avoid; }
+    .hero::before { display: none; }
+    
+    .proposta-body { max-height: none !important; overflow: visible !important; }
+    .proposta-toggle { display: none !important; }
+    
+    .section, .problema, .cta-section { padding: 32px 40px; }
+    
+    footer { padding: 24px 40px; }
+    
+    .reveal { opacity: 1 !important; transform: none !important; }
+    
+    a { text-decoration: none; }
+    
+    .btn-primary, .btn-secondary { border: 1px solid rgba(255,255,255,.3) !important; }
+    
+    section, .proposta-card { page-break-inside: avoid; }
+    
+    .cta-buttons a[href*="wa.me"]::after {
+      content: " (WhatsApp: (21) 99907-1190)";
+      font-size: 11px;
+      opacity: 0.7;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Grupo Gest.<span>Up</span></div>
+  <ul class="nav-links">
+    <li><a href="#problema">Contexto</a></li>
+    <li><a href="#propostas">Propostas</a></li>
+    <li><a href="#cta">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5521999071190" class="nav-cta" target="_blank">â Falar com Diego</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <canvas id="chart-canvas"></canvas>
+
+  <div class="hero-tag">Proposta Comercial Exclusiva</div>
+  <div class="hero-eyebrow">Grupo Gest.Up GestÃ£o Financeira Â· Maio 2026</div>
+
+  <h1 class="hero-title">
+    Estrutura<br>
+    <span class="accent">financeira</span><br>
+    que funciona.
+  </h1>
+
+  <p class="hero-sub">
+    Duas propostas desenhadas especificamente para organizar, regularizar e profissionalizar a gestÃ£o financeira do seu mercado â com processos claros, equipe treinada e histÃ³rico conciliado.
+  </p>
+
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Segmento</span>
+      <span class="meta-value">Mercado Â· Varejo Alimentar</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Data</span>
+      <span class="meta-value">Maio Â· 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Validade</span>
+      <span class="meta-value">15 dias</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Projetos</span>
+      <span class="meta-value">2 propostas</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Role para ver
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problema" id="problema">
+  <div class="problema-inner">
+    <div>
+      <div class="section-label reveal">O cenÃ¡rio atual</div>
+      <h2 class="section-title reveal" style="transition-delay:.1s">
+        Empresas quebram<br>por <em style="color:var(--teal-light);font-style:italic">desorganizaÃ§Ã£o</em><br>financeira.
+      </h2>
+      <p class="section-desc reveal" style="transition-delay:.2s">
+        NÃ£o falta dinheiro â falta clareza sobre o dinheiro. Sem processos definidos, o financeiro vira uma caixa preta que consome energia, gera erro e impede o crescimento.
+      </p>
+
+      <div class="dores-list reveal" style="transition-delay:.3s">
+        <div class="dor-item">
+          <div class="dor-icon">â </div>
+          <div class="dor-text">Caixa sem previsibilidade â nÃ£o sabe o que vai entrar e sair semana que vem</div>
+        </div>
+        <div class="dor-item">
+          <div class="dor-icon">ð</div>
+          <div class="dor-text">LanÃ§amentos atrasados â histÃ³rico financeiro incompleto e sem confiabilidade</div>
+        </div>
+        <div class="dor-item">
+          <div class="dor-icon">ð</div>
+          <div class="dor-text">Processos na cabeÃ§a das pessoas â operaÃ§Ã£o depende de memÃ³ria, nÃ£o de sistema</div>
+        </div>
+        <div class="dor-item">
+          <div class="dor-icon">ð</div>
+          <div class="dor-text">Plano de contas desorganizado â relatÃ³rios que nÃ£o refletem a realidade do negÃ³cio</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:.4s">
+      <div class="stat-block">
+        <div class="stat-number">90</div>
+        <div class="stat-label">dias para uma operaÃ§Ã£o financeira organizada</div>
+        <div class="stat-sublabel">+ regularizaÃ§Ã£o retroativa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROPOSTAS -->
+<section class="section" id="propostas">
+  <div class="section-label reveal">O que entregamos</div>
+  <h2 class="section-title reveal" style="transition-delay:.1s">Duas propostas.<br>Um objetivo.</h2>
+  <p class="section-desc reveal" style="transition-delay:.2s">Cada proposta resolve um problema especÃ­fico. Juntas, entregam uma operaÃ§Ã£o financeira completa, organizada e sustentÃ¡vel.</p>
+
+  <div class="propostas-wrap reveal" style="transition-delay:.3s">
+
+    <!-- PROPOSTA 1 -->
+    <div class="proposta-card open" id="card1">
+      <div class="proposta-header" onclick="toggleCard('card1')">
+        <div class="proposta-header-left">
+          <div class="proposta-num">01</div>
+          <div class="proposta-title-block">
+            <div class="proposta-title">EstruturaÃ§Ã£o Financeira</div>
+            <div class="proposta-sub">Processos Â· Treinamento Â· Acompanhamento Â· Plano de Contas</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div class="proposta-badge">90 dias corridos</div>
+          <div class="proposta-toggle">+</div>
+        </div>
+      </div>
+
+      <div class="proposta-body">
+        <div class="proposta-inner">
+          <div class="proposta-divider"></div>
+
+          <p style="font-size:15px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:28px;font-weight:300">
+            Projeto completo de estruturaÃ§Ã£o do setor financeiro â da documentaÃ§Ã£o dos processos ao treinamento da equipe, com acompanhamento semanal da execuÃ§Ã£o durante todo o perÃ­odo.
+          </p>
+
+          <!-- Escopo -->
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:16px">Escopo completo</div>
+          <div class="escopo-grid">
+            <div class="escopo-item">
+              <div class="escopo-num">01 Â·</div>
+              <div class="escopo-name">Desenho dos Processos</div>
+              <div class="escopo-desc">Mapeamento, documentaÃ§Ã£o e checklists de todos os fluxos financeiros: contas a pagar, receber, conciliaÃ§Ã£o e fechamento</div>
+            </div>
+            <div class="escopo-item">
+              <div class="escopo-num">02 Â·</div>
+              <div class="escopo-name">Treinamento da Equipe</div>
+              <div class="escopo-desc">CapacitaÃ§Ã£o prÃ¡tica da equipe junto com o Matheus â com material de apoio e validaÃ§Ã£o de cada rotina</div>
+            </div>
+            <div class="escopo-item">
+              <div class="escopo-num">03 Â·</div>
+              <div class="escopo-name">Acompanhamento da ExecuÃ§Ã£o</div>
+              <div class="escopo-desc">SupervisÃ£o semanal dos processos durante os 90 dias, com ajustes em tempo real e relatÃ³rio de evoluÃ§Ã£o</div>
+            </div>
+            <div class="escopo-item">
+              <div class="escopo-num">04 Â·</div>
+              <div class="escopo-name">Ajuste do Plano de Contas</div>
+              <div class="escopo-desc">ReestruturaÃ§Ã£o das categorias financeiras adequada Ã  realidade do varejo alimentar, pronta para gerar relatÃ³rios gerenciais</div>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;margin-top:32px">Cronograma</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="tl-dot">F1</div>
+              <div class="tl-content">
+                <div class="tl-phase">Fase 1</div>
+                <div class="tl-title">DiagnÃ³stico e levantamento</div>
+                <div class="tl-period">Dias 1 â 15</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">F2</div>
+              <div class="tl-content">
+                <div class="tl-phase">Fase 2</div>
+                <div class="tl-title">Desenho e documentaÃ§Ã£o dos processos</div>
+                <div class="tl-period">Dias 16 â 30</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">F3</div>
+              <div class="tl-content">
+                <div class="tl-phase">Fase 3</div>
+                <div class="tl-title">Ajuste do plano de contas</div>
+                <div class="tl-period">Dias 31 â 45</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">F4</div>
+              <div class="tl-content">
+                <div class="tl-phase">Fase 4</div>
+                <div class="tl-title">Treinamento da equipe com o Matheus</div>
+                <div class="tl-period">Dias 46 â 60</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">F5</div>
+              <div class="tl-content">
+                <div class="tl-phase">Fase 5</div>
+                <div class="tl-title">Acompanhamento e ajustes da execuÃ§Ã£o</div>
+                <div class="tl-period">Dias 61 â 85</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="tl-dot">F6</div>
+              <div class="tl-content">
+                <div class="tl-phase">Fase 6</div>
+                <div class="tl-title">RelatÃ³rio final e encerramento</div>
+                <div class="tl-period">Dias 86 â 90</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Investimento -->
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;margin-top:32px">Investimento</div>
+          <div class="invest-box">
+            <div class="invest-total">
+              <span class="invest-total-label">Investimento Total</span>
+              <span class="invest-total-val">R$ 9.000</span>
+            </div>
+            <div class="invest-options">
+              <div class="invest-opt">
+                <div class="invest-opt-tag">Ã vista Â· 5% off</div>
+                <div class="invest-opt-val">R$ 8.550</div>
+              </div>
+              <div class="invest-opt">
+                <div class="invest-opt-tag">Parcelado em 3Ã</div>
+                <div class="invest-opt-val">R$ 3.000 / mÃªs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPOSTA 2 -->
+    <div class="proposta-card" id="card2" style="margin-top:16px">
+      <div class="proposta-header" onclick="toggleCard('card2')">
+        <div class="proposta-header-left">
+          <div class="proposta-num">02</div>
+          <div class="proposta-title-block">
+            <div class="proposta-title">RegularizaÃ§Ã£o de LanÃ§amentos</div>
+            <div class="proposta-sub">Janeiro a Maio Â· 2026 â HistÃ³rico conciliado</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div class="proposta-badge">15â20 dias Ãºteis</div>
+          <div class="proposta-toggle">+</div>
+        </div>
+      </div>
+
+      <div class="proposta-body">
+        <div class="proposta-inner">
+          <div class="proposta-divider"></div>
+
+          <p style="font-size:15px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:28px;font-weight:300">
+            ServiÃ§o de regularizaÃ§Ã£o e baixa de todos os lanÃ§amentos financeiros pendentes de janeiro atÃ© hoje. Garante que o histÃ³rico financeiro da empresa esteja correto, conciliado e utilizÃ¡vel como base de gestÃ£o.
+          </p>
+
+          <div class="escopo-grid">
+            <div class="escopo-item">
+              <div class="escopo-num">01 Â·</div>
+              <div class="escopo-name">Levantamento dos Pendentes</div>
+              <div class="escopo-desc">IdentificaÃ§Ã£o de todas as transaÃ§Ãµes sem baixa ou mal classificadas no perÃ­odo janâmai/2026</div>
+            </div>
+            <div class="escopo-item">
+              <div class="escopo-num">02 Â·</div>
+              <div class="escopo-name">Baixa e ClassificaÃ§Ã£o</div>
+              <div class="escopo-desc">Registro correto de receitas, despesas, transferÃªncias e custo por categoria no perÃ­odo</div>
+            </div>
+            <div class="escopo-item">
+              <div class="escopo-num">03 Â·</div>
+              <div class="escopo-name">ConciliaÃ§Ã£o BancÃ¡ria</div>
+              <div class="escopo-desc">Cruzamento dos extratos com os lanÃ§amentos â identificaÃ§Ã£o e correÃ§Ã£o de divergÃªncias</div>
+            </div>
+            <div class="escopo-item">
+              <div class="escopo-num">04 Â·</div>
+              <div class="escopo-name">RelatÃ³rio de Encerramento</div>
+              <div class="escopo-desc">RelatÃ³rio consolidado do perÃ­odo regularizado com saldo validado e resumo executivo</div>
+            </div>
+          </div>
+
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;margin-top:32px">O que serÃ¡ regularizado</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:32px">
+            <div style="display:flex;gap:12px;align-items:center;font-size:14px;color:rgba(255,255,255,.65);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+              <span style="color:var(--teal);font-family:'DM Mono',monospace;font-size:12px">â</span> Contas a pagar: baixas de pagamentos realizados sem registro
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;font-size:14px;color:rgba(255,255,255,.65);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+              <span style="color:var(--teal);font-family:'DM Mono',monospace;font-size:12px">â</span> Contas a receber: baixas de recebimentos em aberto
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;font-size:14px;color:rgba(255,255,255,.65);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+              <span style="color:var(--teal);font-family:'DM Mono',monospace;font-size:12px">â</span> TransferÃªncias internas: registro de movimentaÃ§Ãµes entre contas
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;font-size:14px;color:rgba(255,255,255,.65);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+              <span style="color:var(--teal);font-family:'DM Mono',monospace;font-size:12px">â</span> ReclassificaÃ§Ã£o de despesas ao plano de contas
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;font-size:14px;color:rgba(255,255,255,.65);padding:10px 0">
+              <span style="color:var(--teal);font-family:'DM Mono',monospace;font-size:12px">â</span> IdentificaÃ§Ã£o e correÃ§Ã£o de lanÃ§amentos duplicados
+            </div>
+          </div>
+
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:16px">Investimento</div>
+          <div class="invest-box">
+            <div class="invest-total">
+              <span class="invest-total-label">Investimento Total</span>
+              <span class="invest-total-val">R$ 3.500</span>
+            </div>
+            <div class="invest-options">
+              <div class="invest-opt">
+                <div class="invest-opt-tag">Ã vista Â· 5% off</div>
+                <div class="invest-opt-val">R$ 3.325</div>
+              </div>
+              <div class="invest-opt">
+                <div class="invest-opt-tag">Em 2Ã</div>
+                <div class="invest-opt-val">R$ 1.750 / parcela</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONDIÃÃES -->
+<section class="section">
+  <div class="section-label reveal">CondiÃ§Ãµes gerais</div>
+  <h2 class="section-title reveal" style="transition-delay:.1s;margin-bottom:48px">Simples e<br><em style="font-style:italic;color:var(--teal-light)">transparente.</em></h2>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px" class="reveal" style="transition-delay:.2s">
+    <div class="dor-item" style="align-items:center">
+      <div class="dor-icon" style="background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.2)">ð</div>
+      <div class="dor-text"><strong style="display:block;margin-bottom:4px;color:var(--white)">InÃ­cio imediato</strong>ApÃ³s assinatura e confirmaÃ§Ã£o do pagamento da primeira parcela</div>
+    </div>
+    <div class="dor-item" style="align-items:center">
+      <div class="dor-icon" style="background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.2)">â³</div>
+      <div class="dor-text"><strong style="display:block;margin-bottom:4px;color:var(--white)">Validade da proposta</strong>15 dias a partir do recebimento deste documento</div>
+    </div>
+    <div class="dor-item" style="align-items:center">
+      <div class="dor-icon" style="background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.2)">ð</div>
+      <div class="dor-text"><strong style="display:block;margin-bottom:4px;color:var(--white)">Acesso necessÃ¡rio</strong>Sistema financeiro e extratos bancÃ¡rios do perÃ­odo para proposta 2</div>
+    </div>
+    <div class="dor-item" style="align-items:center">
+      <div class="dor-icon" style="background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.2)">ð¤</div>
+      <div class="dor-text"><strong style="display:block;margin-bottom:4px;color:var(--white)">Modalidade</strong>Atendimento presencial e/ou remoto conforme necessidade da operaÃ§Ã£o</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-inner">
+    <div class="section-label reveal" style="justify-content:center">PrÃ³ximo passo</div>
+    <h2 class="cta-title reveal" style="transition-delay:.1s">
+      Pronto para<br><span class="italic">organizar?</span>
+    </h2>
+    <p class="cta-sub reveal" style="transition-delay:.2s">
+      Fale com Diego agora e inicie o processo. Quanto antes comeÃ§ar, mais rÃ¡pido seu financeiro vira uma ferramenta de crescimento.
+    </p>
+    <div class="cta-buttons reveal" style="transition-delay:.3s">
+      <a href="https://wa.me/5521999071190?text=Ol%C3%A1%20Diego%2C%20recebi%20a%20proposta%20do%20Grupo%20Gest.Up%20e%20quero%20avan%C3%A7ar." class="btn-primary" target="_blank">
+        â Aceitar e avanÃ§ar
+      </a>
+      <a href="https://wa.me/5521999071190?text=Ol%C3%A1%20Diego%2C%20tenho%20d%C3%BAvidas%20sobre%20a%20proposta%20do%20Grupo%20Gest.Up." class="btn-secondary" target="_blank">
+        Tirar dÃºvidas
+      </a>
+    </div>
+    <div class="reveal" style="transition-delay:.4s;margin-top:32px">
+      <button onclick="window.print()" style="background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:10px 24px;border-radius:100px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='rgba(255,255,255,.3)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.4)'">
+        â Salvar / Imprimir proposta
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand"><span>Grupo Gest.<span style="color:var(--teal-light)">Up</span></span></div>
+  <div class="footer-info">contato@gestupfinanceiro.com.br</div>
+  <div class="validity">â± VÃ¡lida por 15 dias</div>
+</footer>
+
+<script>
+  // ââ GRÃFICO FINANCEIRO NO FUNDO DO HERO ââââââââââââââââââââââââââââââ
+  (function() {
+    const canvas = document.getElementById('chart-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Dados simulando crescimento financeiro com volatilidade realista
+    const baseData = [
+      28, 32, 29, 35, 31, 38, 34, 42, 39, 45,
+      41, 48, 44, 52, 49, 58, 54, 61, 57, 65,
+      62, 70, 66, 74, 71, 79, 75, 83, 80, 88,
+      84, 91, 87, 95, 92, 98, 94, 102, 99, 107,
+      103, 111, 108, 115, 112, 119, 116, 123, 120, 128,
+      124, 132, 129, 136, 133, 140, 137, 144, 141, 148,
+      145, 152, 149, 156, 153, 160, 157, 164, 161, 168
+    ];
+
+    // Barras de volume (parte inferior)
+    const volumes = baseData.map((v, i) =>
+      20 + Math.abs(Math.sin(i * 0.7 + 1.2) * 35) + Math.random() * 10
+    );
+
+    let animProgress = 0;
+    let rafId;
+
+    function resize() {
+      canvas.width  = canvas.offsetWidth  * window.devicePixelRatio;
+      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+    function draw(progress) {
+      const W = canvas.offsetWidth;
+      const H = canvas.offsetHeight;
+      ctx.clearRect(0, 0, W, H);
+
+      const pts = Math.floor(baseData.length * progress);
+      if (pts < 2) return;
+
+      const data = baseData.slice(0, pts);
+      const minV = Math.min(...data) - 10;
+      const maxV = Math.max(...data) + 10;
+      const range = maxV - minV;
+
+      const chartLeft   = W * 0.28;   // comeÃ§a no meio-direito
+      const chartRight  = W * 0.98;
+      const chartTop    = H * 0.10;
+      const chartBottom = H * 0.72;
+      const chartH      = chartBottom - chartTop;
+      const chartW      = chartRight  - chartLeft;
+
+      const mapX = (i) => chartLeft + (i / (data.length - 1)) * chartW;
+      const mapY = (v) => chartBottom - ((v - minV) / range) * chartH;
+
+      // ââ ÃREA PREENCHIDA (gradiente) ââ
+      const grad = ctx.createLinearGradient(0, chartTop, 0, chartBottom);
+      grad.addColorStop(0,   'rgba(13,184,166, 0.20)');
+      grad.addColorStop(0.5, 'rgba(13,148,136, 0.08)');
+      grad.addColorStop(1,   'rgba(13,148,136, 0.00)');
+
+      ctx.beginPath();
+      ctx.moveTo(mapX(0), chartBottom);
+      data.forEach((v, i) => {
+        if (i === 0) ctx.lineTo(mapX(i), mapY(v));
+        else {
+          // curva suave
+          const prev = data[i - 1];
+          const cpx  = (mapX(i - 1) + mapX(i)) / 2;
+          ctx.bezierCurveTo(cpx, mapY(prev), cpx, mapY(v), mapX(i), mapY(v));
+        }
+      });
+      ctx.lineTo(mapX(data.length - 1), chartBottom);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // ââ LINHA PRINCIPAL ââ
+      ctx.beginPath();
+      data.forEach((v, i) => {
+        if (i === 0) {
+          ctx.moveTo(mapX(i), mapY(v));
+        } else {
+          const prev = data[i - 1];
+          const cpx  = (mapX(i - 1) + mapX(i)) / 2;
+          ctx.bezierCurveTo(cpx, mapY(prev), cpx, mapY(v), mapX(i), mapY(v));
+        }
+      });
+      ctx.strokeStyle = '#14B8A6';
+      ctx.lineWidth   = 2.5;
+      ctx.shadowColor = '#0D9488';
+      ctx.shadowBlur  = 12;
+      ctx.stroke();
+      ctx.shadowBlur  = 0;
+
+      // ââ LINHA SECUNDÃRIA (mÃ©dia mÃ³vel) ââ
+      const ma = data.map((_, i) => {
+        const window = data.slice(Math.max(0, i - 5), i + 1);
+        return window.reduce((a, b) => a + b, 0) / window.length;
+      });
+
+      ctx.beginPath();
+      ma.forEach((v, i) => {
+        if (i === 0) ctx.moveTo(mapX(i), mapY(v));
+        else {
+          const cpx = (mapX(i - 1) + mapX(i)) / 2;
+          ctx.bezierCurveTo(cpx, mapY(ma[i-1]), cpx, mapY(v), mapX(i), mapY(v));
+        }
+      });
+      ctx.strokeStyle = 'rgba(201,168,76, 0.55)';
+      ctx.lineWidth   = 1.5;
+      ctx.setLineDash([6, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // ââ BARRAS DE VOLUME (base) ââ
+      const barW     = (chartW / data.length) * 0.55;
+      const volBase  = H * 0.90;
+      const volMaxH  = H * 0.14;
+
+      data.forEach((_, i) => {
+        const vol  = (volumes[i] / 60) * volMaxH;
+        const x    = mapX(i);
+        const isUp = i === 0 || data[i] >= data[i - 1];
+
+        ctx.fillStyle = isUp
+          ? 'rgba(13,184,166, 0.18)'
+          : 'rgba(239,68,68,  0.12)';
+        ctx.fillRect(x - barW / 2, volBase - vol, barW, vol);
+      });
+
+      // ââ LINHAS DE GRID HORIZONTAIS ââ
+      ctx.strokeStyle = 'rgba(13,148,136, 0.08)';
+      ctx.lineWidth   = 1;
+      for (let g = 0; g <= 4; g++) {
+        const y = chartTop + (g / 4) * chartH;
+        ctx.beginPath();
+        ctx.moveTo(chartLeft, y);
+        ctx.lineTo(chartRight, y);
+        ctx.stroke();
+      }
+
+      // ââ LABELS DE PREÃO (eixo Y) ââ
+      ctx.font      = '11px DM Mono, monospace';
+      ctx.fillStyle = 'rgba(13,184,166, 0.45)';
+      ctx.textAlign = 'right';
+      for (let g = 0; g <= 4; g++) {
+        const v = minV + (1 - g / 4) * range;
+        const y = chartTop + (g / 4) * chartH;
+        ctx.fillText('R$ ' + Math.round(v) + 'k', chartLeft - 8, y + 4);
+      }
+
+      // ââ LABELS DE TEMPO (eixo X) ââ
+      const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
+      ctx.fillStyle = 'rgba(255,255,255, 0.2)';
+      ctx.textAlign = 'center';
+      months.forEach((m, i) => {
+        if (i >= pts / 10) return;
+        const x = chartLeft + (i / (months.length - 1)) * chartW;
+        ctx.fillText(m, x, chartBottom + 18);
+      });
+
+      // ââ PONTO ATUAL (Ãºltimo ponto) ââ
+      const lastX = mapX(data.length - 1);
+      const lastY = mapY(data[data.length - 1]);
+
+      // Pulse externo
+      const pulse = (Date.now() % 1800) / 1800;
+      ctx.beginPath();
+      ctx.arc(lastX, lastY, 6 + pulse * 12, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(13,184,166, ${0.6 - pulse * 0.6})`;
+      ctx.lineWidth   = 1.5;
+      ctx.stroke();
+
+      // Ponto sÃ³lido
+      ctx.beginPath();
+      ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+      ctx.fillStyle   = '#14B8A6';
+      ctx.shadowColor = '#14B8A6';
+      ctx.shadowBlur  = 10;
+      ctx.fill();
+      ctx.shadowBlur  = 0;
+
+      // Tooltip flutuante
+      const tipW = 90, tipH = 36, tipX = lastX + 12, tipY = lastY - tipH / 2;
+      ctx.fillStyle   = 'rgba(13,148,136, 0.9)';
+      ctx.beginPath();
+      ctx.roundRect(tipX, tipY, tipW, tipH, 6);
+      ctx.fill();
+      ctx.font      = 'bold 13px DM Sans, sans-serif';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textAlign = 'center';
+      ctx.fillText('+' + Math.round(data[data.length-1] - data[0]) + '%', tipX + tipW/2, tipY + 14);
+      ctx.font      = '10px DM Mono, monospace';
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.fillText('crescimento', tipX + tipW/2, tipY + 28);
+
+      // ââ CANDLES ESTILIZADOS (direita do grÃ¡fico, mini) ââ
+      const candleStart = Math.max(0, data.length - 8);
+      const candleData  = data.slice(candleStart);
+      const cLeft       = chartRight + 12;
+      const cW          = Math.min(W - cLeft - 10, 80);
+
+      if (cW > 30) {
+        const cBarW = (cW / candleData.length) * 0.5;
+        const cMin  = Math.min(...candleData) - 5;
+        const cMax  = Math.max(...candleData) + 5;
+        const cR    = cMax - cMin;
+
+        candleData.forEach((v, i) => {
+          const prev  = i === 0 ? v : candleData[i - 1];
+          const isUp2 = v >= prev;
+          const x2    = cLeft + (i / (candleData.length - 1)) * cW;
+          const y2    = chartBottom - ((v - cMin) / cR) * chartH;
+          const y2p   = chartBottom - ((prev - cMin) / cR) * chartH;
+
+          ctx.strokeStyle = isUp2 ? 'rgba(13,184,166,.6)' : 'rgba(239,68,68,.5)';
+          ctx.lineWidth   = 1;
+          ctx.beginPath();
+          ctx.moveTo(x2, Math.min(y2, y2p) - 4);
+          ctx.lineTo(x2, Math.max(y2, y2p) + 4);
+          ctx.stroke();
+
+          ctx.fillStyle = isUp2 ? 'rgba(13,184,166,.4)' : 'rgba(239,68,68,.35)';
+          ctx.fillRect(x2 - cBarW/2, Math.min(y2, y2p), cBarW, Math.abs(y2 - y2p) || 2);
+        });
+      }
+    }
+
+    function animate() {
+      if (animProgress < 1) {
+        animProgress = Math.min(1, animProgress + 0.012);
+        draw(ease(animProgress));
+      } else {
+        draw(1); // continua redrawing para o pulse
+      }
+      rafId = requestAnimationFrame(animate);
+    }
+
+    function init() {
+      resize();
+      cancelAnimationFrame(rafId);
+      animProgress = 0;
+      animate();
+    }
+
+    window.addEventListener('resize', init);
+    init();
+  })();
+
+  // Toggle accordion
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
